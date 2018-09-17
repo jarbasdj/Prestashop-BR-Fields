@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+    <name>brazilianfields</name>
+    <displayName><![CDATA[Campos brasileiros]]></displayName>
+    <version><![CDATA[0.0.1]]></version>
+    <description><![CDATA[Habilita campos comuns ao brasil no cadastro dos clientes.]]></description>
+    <author><![CDATA[VH Labs [Jarbas]]]></author>
+    <tab><![CDATA[administration]]></tab>
+    <is_configurable>0</is_configurable>
+    <need_instance>1</need_instance>
+	<limited_countries></limited_countries>
+</module>
