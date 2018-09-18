@@ -12,4 +12,13 @@ class Address extends AddressCore {
 
         parent::__construct($id_address);
     }
+
+    public function getFields()
+    {
+        $field = parent::getFields();
+        $field['address_number'] = pSQL($this->address_number);
+        $field['addaddress_neighborhood'] = pSQL($this->addaddress_neighborhood);
+
+        return $field;
+    }
 }
