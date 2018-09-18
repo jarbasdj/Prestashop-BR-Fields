@@ -9,7 +9,7 @@ class Brazilianfields extends Module
 {
     /**
      * Construct
-     * 
+     *
      */
     public function __construct()
     {
@@ -20,12 +20,12 @@ class Brazilianfields extends Module
         $this->need_instance = 1;
 
         $this->bootstrap = true;
-        
+
         parent::__construct();
 
         $this->displayName = $this->l('Campos brasileiros');
         $this->description = $this->l('Habilita campos comuns ao brasil no cadastro dos clientes.');
-    
+
         $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
     }
 
@@ -36,13 +36,17 @@ class Brazilianfields extends Module
      */
     public function install()
     {
-        if(Shop::isFeatureActive()){
+        if (Shop::isFeatureActive()) {
             Shop::setContext(Shop::CONTEXT_ALL);
         }
 
         require_once dirname(__FILE__) . '/sql/install.php';
 
-        return parent::install();
+        if (!parent::install() or !$this->registerHook('displayOverrideTemplate')) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -55,5 +59,12 @@ class Brazilianfields extends Module
         require_once dirname(__FILE__) . '/sql/uninstall.php';
 
         return parent::uninstall();
+    }
+
+    public function hookDisplayOverrideTemplate($params)
+    {
+        if (isset($params['controller']->php_self) and $params['controller']->php_self === 'address') {
+            return $this->display(__FILE__, '/views/templates/hook/hookeOverrideAddressTemplate.tpl');
+        }
     }
 }

@@ -2,8 +2,8 @@
 
 class AddressController extends AddressControllerCore
 {
-    public function setTemplate($template, $params = array(), $locale = null)
+    public function initContent()
     {
-        parent::setTemplate('modules/brazilianfields/views/front/address.tpl');
+        parent::initContent();
     }
 }
