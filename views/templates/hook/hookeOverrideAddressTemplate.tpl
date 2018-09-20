@@ -9,6 +9,10 @@
 {/block}
 
 {block name='page_content'}
+    <pre>
+        {$formFields|@print_r}
+    </pre>
+
     {block name="address_form"}
         <div class="js-address-form">
             {include file='_partials/form-errors.tpl' errors=$errors['']}

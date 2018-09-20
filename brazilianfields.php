@@ -7,6 +7,9 @@ if (!defined('_PS_VERSION_')) {
 
 class Brazilianfields extends Module
 {
+    private $defaultAddressFormat = "firstname\nlastname\ncompany\nvat_number\naddress1\naddress2\npostcode city\nCountry:name\nphone";
+    private $newAddressFormat = "firstname\nlastname\ncompany\nphone\naddress1\naddress2\naddress_number\naddress_neighborhood\npostcode city\nCountry:name";
+
     /**
      * Construct
      *
@@ -42,7 +45,9 @@ class Brazilianfields extends Module
 
         require_once dirname(__FILE__) . '/sql/install.php';
 
-        if (!parent::install() or !$this->registerHook('displayOverrideTemplate')) {
+        if (!parent::install() or
+            !$this->registerHook('displayOverrideTemplate') or
+            !$this->modifyAddressFormat()) {
             return false;
         }
 
@@ -58,7 +63,13 @@ class Brazilianfields extends Module
     {
         require_once dirname(__FILE__) . '/sql/uninstall.php';
 
-        return parent::uninstall();
+        if (!parent::uninstall() or
+            !$this->modifyAddressFormat(true)
+        ){
+            return false;
+        }
+
+        return true;
     }
 
     public function hookDisplayOverrideTemplate($params)
@@ -66,5 +77,20 @@ class Brazilianfields extends Module
         if (isset($params['controller']->php_self) and $params['controller']->php_self === 'address') {
             return $this->getTemplatePath('hookeOverrideAddressTemplate.tpl');
         }
+    }
+
+    public function modifyAddressFormat($reset = false)
+    {
+        $country = Db::getInstance()->getRow('SELECT id_country FROM `'._DB_PREFIX_.'country` WHERE `iso_code` = "br" OR `iso_code` = "BR"');
+
+        if (isset($country['id_country']) and $country['id_country'] >= 1) {
+            $id_country = $country['id_country'];
+
+            $format = ['format' => $reset ? $this->defaultAddressFormat : $this->newAddressFormat];
+        
+            Db::getInstance()->update('address_format', $format, '`id_country` = ' . $id_country);
+        }
+
+        return true;
     }
 }
