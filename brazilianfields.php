@@ -8,7 +8,7 @@ if (!defined('_PS_VERSION_')) {
 class Brazilianfields extends Module
 {
     private $defaultAddressFormat = "firstname\nlastname\ncompany\nvat_number\naddress1\naddress2\npostcode city\nCountry:name\nphone";
-    private $newAddressFormat = "firstname\nlastname\ncompany\nphone\naddress1\naddress2\naddress_number\naddress_neighborhood\npostcode city\nCountry:name";
+    private $newAddressFormat = "firstname\nlastname\ncompany\nphone\npostcode\naddress1\naddress2\naddress_number\naddress_neighborhood\ncity\nState:iso_code\nCountry:name";
 
     /**
      * Construct
@@ -47,11 +47,18 @@ class Brazilianfields extends Module
 
         if (!parent::install() or
             !$this->registerHook('displayOverrideTemplate') or
+            !$this->registerHook('header') or
             !$this->modifyAddressFormat()) {
             return false;
         }
 
         return true;
+    }
+
+    public function hookHeader()
+    {
+        $this->context->controller->addJS($this->_path . 'views/js/jquery.mask.min.js');
+        $this->context->controller->addJS($this->_path . 'views/js/brazilianfields.js');
     }
 
     /**
@@ -75,6 +82,10 @@ class Brazilianfields extends Module
     public function hookDisplayOverrideTemplate($params)
     {
         if (isset($params['controller']->php_self) and $params['controller']->php_self === 'address') {
+            $this->context->smarty->assign([
+                'uri' => __PS_BASE_URI__ . "/modules/{$this->name}/"
+            ]);
+
             return $this->getTemplatePath('hookeOverrideAddressTemplate.tpl');
         }
     }
