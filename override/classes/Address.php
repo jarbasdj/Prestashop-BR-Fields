@@ -1,12 +1,14 @@
 <?php
 
 class Address extends AddressCore {
+    
     public $address_number;
 
     public $address_neighborhood;
 
     public function __construct($id_address = null, $id_lang = null)
     {
+        // Adiciona os novos campos
         self::$definition['fields']['address_number'] = ['type' => self::TYPE_STRING, 'validate' => 'isGenericName', 'size' => 100];
         self::$definition['fields']['address_neighborhood'] = ['type' => self::TYPE_STRING, 'validate' => 'isGenericName', 'size' => 100];
 

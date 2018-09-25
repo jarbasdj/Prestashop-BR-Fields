@@ -37,7 +37,7 @@ $(function () {
         $address2.val('');
 
         // Mostra o preloader
-        $('span.postcode').toggleClass('d-none');
+        $('span.postcode').show();
 
         $.ajax({
             url: 'http://cep.republicavirtual.com.br/web_cep.php',
@@ -72,7 +72,7 @@ $(function () {
             }
         }).always(function () {
             // Esconde o preloader
-            $('span.postcode').toggleClass('d-none', true);
+            $('span.postcode').hide();
         });
     });
 })

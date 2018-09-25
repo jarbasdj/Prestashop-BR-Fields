@@ -81,12 +81,16 @@ class Brazilianfields extends Module
 
     public function hookDisplayOverrideTemplate($params)
     {
-        if (isset($params['controller']->php_self) and $params['controller']->php_self === 'address') {
+        if (isset($params['controller']->php_self)) {
             $this->context->smarty->assign([
                 'uri' => __PS_BASE_URI__ . "/modules/{$this->name}/"
             ]);
-
-            return $this->getTemplatePath('hookeOverrideAddressTemplate.tpl');
+            
+            if ($params['controller']->php_self === 'address') {
+                return $this->getTemplatePath('hookeOverrideAddressTemplate.tpl');
+            } else if ($params['controller']->php_self === 'order') {
+                return $this->getTemplatePath('hookeOverrideCheckoutTemplate.tpl');
+            }
         }
     }
 

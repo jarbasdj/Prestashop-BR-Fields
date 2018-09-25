@@ -167,7 +167,7 @@
 
                                             {* Cria o preloader para mostrar durante o carregamento do CEP *}
                                             {if $field.name === 'postcode'}
-                                                <span class="postcode d-none">
+                                                <span class="postcode" style="display: none">
                                                     <p class="mt-1 mb-1"><img src="{$uri}views/img/spinner.gif"> <small>{l s="Carregando endereço. Aguarde..." mod="brazilianfields"}</small></p>
                                                 </span>
                                             {/if}
