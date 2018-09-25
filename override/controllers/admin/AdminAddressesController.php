@@ -26,13 +26,6 @@ class AdminAddressesController extends AdminAddressesControllerCore
                 ),
                 array(
                     'type' => 'text',
-                    'label' => $this->l('Número'),
-                    'name' => 'address_number',
-                    'required' => false,
-                    'hint' => 'Número do endereço'
-                ),
-                array(
-                    'type' => 'text',
                     'label' => $this->trans('Address alias', array(), 'Admin.Orderscustomers.Feature'),
                     'name' => 'alias',
                     'required' => true,
